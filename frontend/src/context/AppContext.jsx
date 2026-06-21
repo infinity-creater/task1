@@ -21,6 +21,9 @@ export const AppProvider = ({ children }) => {
 
   // Determine API Base URL depending on deployment context
   const getApiUrl = () => {
+    if (import.meta.env.VITE_API_URL) {
+      return import.meta.env.VITE_API_URL;
+    }
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return ''; // Dev proxy handles relative URLs
     }
