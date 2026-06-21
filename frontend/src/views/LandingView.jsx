@@ -26,14 +26,10 @@ import {
   Info
 } from 'lucide-react';
 
-export default function LandingView({ onLoginClick }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeFaq, setActiveFaq] = useState(null);
+export default function LandingView({ onLoginClick, onInfoClick, onNavClick, activeSection, setActiveSection }) {
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [contactSubmitted, setContactSubmitted] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
-  const [showInfoModal, setShowInfoModal] = useState(null); // 'home' | 'about' | 'contact' | 'features'
 
   // Update active section on scroll
   useEffect(() => {
@@ -47,7 +43,9 @@ export default function LandingView({ onLoginClick }) {
           const top = el.offsetTop;
           const height = el.offsetHeight;
           if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
+            if (setActiveSection) {
+              setActiveSection(section);
+            }
             break;
           }
         }
@@ -56,14 +54,16 @@ export default function LandingView({ onLoginClick }) {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [setActiveSection]);
 
   const handleNavClick = (sectionId) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(sectionId);
-      setSidebarOpen(false);
+    if (onNavClick) {
+      onNavClick(sectionId);
+    } else {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -156,166 +156,6 @@ export default function LandingView({ onLoginClick }) {
       <div className="bg-glow bg-glow-2"></div>
       <div className="bg-glow bg-glow-3"></div>
 
-      {/* Landing Header */}
-      <header className="landing-header">
-        <div className="header-container">
-          <div className="logo-section" onClick={() => handleNavClick('home')}>
-            <Wrench className="logo-icon" />
-            <span className="logo-text">HelpDesk LITE</span>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="desktop-nav">
-            <button 
-              className={`nav-item ${activeSection === 'home' ? 'active' : ''}`}
-              onClick={() => handleNavClick('home')}
-            >
-              Home
-            </button>
-            <button 
-              className={`nav-item ${activeSection === 'features' ? 'active' : ''}`}
-              onClick={() => handleNavClick('features')}
-            >
-              Features
-            </button>
-            <button 
-              className={`nav-item ${activeSection === 'about' ? 'active' : ''}`}
-              onClick={() => handleNavClick('about')}
-            >
-              About
-            </button>
-            <button 
-              className={`nav-item ${activeSection === 'contact' ? 'active' : ''}`}
-              onClick={() => handleNavClick('contact')}
-            >
-              Contact
-            </button>
-          </nav>
-
-          {/* Header Actions */}
-          <div className="header-actions">
-            {/* Sidebar toggle button (Info panel) */}
-            <button 
-              className="btn-status-toggle"
-              onClick={() => setSidebarOpen(true)}
-              title="System Status & FAQ Help Center"
-            >
-              <Activity size={18} />
-              <span>Status & Help</span>
-            </button>
-
-            <button className="btn-login-header" onClick={onLoginClick}>
-              <LogIn size={16} />
-              <span>Sign In</span>
-            </button>
-
-            {/* Mobile menu trigger */}
-            <button className="mobile-menu-btn" onClick={() => setSidebarOpen(true)}>
-              <Menu size={24} />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Collapsible / Sliding Sidebar (System Status & Help Guide) */}
-      <aside className={`landing-sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-header-landing">
-          <div className="sidebar-title-group">
-            <Activity className="status-pulse-icon" />
-            <h3>Help & Status</h3>
-          </div>
-          <button className="sidebar-close-btn-landing" onClick={() => setSidebarOpen(false)}>
-            <X size={20} />
-          </button>
-        </div>
-
-        <div className="sidebar-scroll-content">
-          {/* Quick Nav for Mobile */}
-          <div className="mobile-only-nav">
-            <h4>Navigate</h4>
-            <div className="mobile-nav-grid">
-              <button onClick={() => handleNavClick('home')}>Home</button>
-              <button onClick={() => handleNavClick('features')}>Features</button>
-              <button onClick={() => handleNavClick('about')}>About</button>
-              <button onClick={() => handleNavClick('contact')}>Contact</button>
-            </div>
-          </div>
-
-          {/* System Status Indicators */}
-          <div className="sidebar-section">
-            <h4>System Health</h4>
-            <div className="health-card">
-              <div className="health-item">
-                <div className="status-indicator online"></div>
-                <div className="health-details">
-                  <div className="health-name">API Server</div>
-                  <div className="health-status">Operational</div>
-                </div>
-                <Server size={16} className="health-icon" />
-              </div>
-              <div className="health-item">
-                <div className="status-indicator online"></div>
-                <div className="health-details">
-                  <div className="health-name">Database (MongoDB Atlas)</div>
-                  <div className="health-status">Operational</div>
-                </div>
-                <ShieldCheck size={16} className="health-icon" />
-              </div>
-              <div className="health-item">
-                <div className="status-indicator online"></div>
-                <div className="health-details">
-                  <div className="health-name">Email Relays</div>
-                  <div className="health-status">Operational</div>
-                </div>
-                <Mail size={16} className="health-icon" />
-              </div>
-            </div>
-            
-            <div className="metrics-summary-card">
-              <div className="metric-box">
-                <span className="metric-value">15m</span>
-                <span className="metric-label">Avg. Response</span>
-              </div>
-              <div className="metric-box">
-                <span className="metric-value">99.8%</span>
-                <span className="metric-label">SLA Rate</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Help Center Accordion FAQs */}
-          <div className="sidebar-section">
-            <h4>Support FAQs</h4>
-            <div className="faq-list">
-              {faqs.map((faq, idx) => (
-                <div key={idx} className={`faq-item-small ${activeFaq === idx ? 'expanded' : ''}`}>
-                  <button className="faq-question-btn" onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}>
-                    <span>{faq.q}</span>
-                    <ChevronDown size={16} className="chevron" />
-                  </button>
-                  <div className="faq-answer-container">
-                    <p className="faq-answer-text">{faq.a}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Preset Credentials Quick Reference */}
-          <div className="sidebar-section">
-            <h4>Quick Logins (Presets)</h4>
-            <div className="login-hint-card">
-              <div className="hint-row"><strong>Admin:</strong> <code>admin</code> / <code>password</code></div>
-              <div className="hint-row"><strong>Support L1:</strong> <code>support_alice</code> / <code>password</code></div>
-              <div className="hint-row"><strong>Employee:</strong> <code>employee_john</code> / <code>password</code></div>
-            </div>
-          </div>
-        </div>
-      </aside>
-      
-      {/* Sidebar backdrop overlay */}
-      {sidebarOpen && <div className="sidebar-overlay-landing" onClick={() => setSidebarOpen(false)}></div>}
-
       {/* Main Content Area */}
       <main className="landing-main">
 
@@ -347,11 +187,11 @@ export default function LandingView({ onLoginClick }) {
 
               {/* Interactive Quick Info Buttons */}
               <div className="quick-info-strip">
-                <button onClick={() => setShowInfoModal('home')} className="info-strip-btn">
+                <button onClick={() => onInfoClick('home')} className="info-strip-btn">
                   <Info size={16} />
                   <span>What is HelpDesk LITE?</span>
                 </button>
-                <button onClick={() => setShowInfoModal('about')} className="info-strip-btn">
+                <button onClick={() => onInfoClick('about')} className="info-strip-btn">
                   <BookOpen size={16} />
                   <span>Support Service SLAs</span>
                 </button>
@@ -533,7 +373,7 @@ export default function LandingView({ onLoginClick }) {
                 </div>
               </div>
 
-              <button className="btn-about-info" onClick={() => setShowInfoModal('about')}>
+              <button className="btn-about-info" onClick={() => onInfoClick('about')}>
                 <Info size={16} />
                 <span>View SLA Guidelines</span>
               </button>
@@ -574,7 +414,7 @@ export default function LandingView({ onLoginClick }) {
                 </div>
               </div>
 
-              <button className="btn-about-info" onClick={() => setShowInfoModal('contact')}>
+              <button className="btn-about-info" onClick={() => onInfoClick('contact')}>
                 <Clock size={16} />
                 <span>IT Desk Working Hours</span>
               </button>
@@ -637,111 +477,7 @@ export default function LandingView({ onLoginClick }) {
         </section>
       </main>
 
-      {/* Landing Footer */}
-      <footer className="landing-footer">
-        <div className="footer-container">
-          <div className="footer-brand-column">
-            <div className="logo-section">
-              <Wrench className="logo-icon" />
-              <span className="logo-text">HelpDesk LITE</span>
-            </div>
-            <p className="footer-brand-desc">
-              Sleek enterprise IT management and support, connecting employees with technical solutions swiftly.
-            </p>
-            <div className="system-status-indicator-footer">
-              <span className="footer-status-dot online"></span>
-              <span>All Systems Operational</span>
-            </div>
-          </div>
 
-          <div className="footer-links-column">
-            <h4>Platform</h4>
-            <ul>
-              <li><button onClick={() => handleNavClick('home')}>Home</button></li>
-              <li><button onClick={() => handleNavClick('features')}>Features</button></li>
-              <li><button onClick={() => handleNavClick('about')}>About SLAs</button></li>
-              <li><button onClick={() => handleNavClick('contact')}>Support Office</button></li>
-            </ul>
-          </div>
-
-          <div className="footer-links-column">
-            <h4>Quick Access</h4>
-            <ul>
-              <li><button onClick={onLoginClick}>Portal Login</button></li>
-              <li><button onClick={() => setSidebarOpen(true)}>Help & Guides</button></li>
-              <li><button onClick={() => setShowInfoModal('home')}>System Core Info</button></li>
-            </ul>
-          </div>
-
-          <div className="footer-newsletter-column">
-            <h4>Helpdesk Bulletin</h4>
-            <p>Subscribe for system maintenance alerts and hardware refresh updates.</p>
-            <div className="newsletter-form-mock">
-              <input type="email" placeholder="mail@company.com" className="newsletter-input" readOnly />
-              <button className="newsletter-btn" onClick={() => alert("Mock Subscription Enabled!")}>Join</button>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <div className="footer-bottom-container">
-            <span>&copy; {new Date().getFullYear()} HelpDesk LITE Enterprise Systems. All rights reserved.</span>
-            <div className="footer-legal-links">
-              <a href="#privacy" onClick={(e) => e.preventDefault()}>Privacy Policy</a>
-              <span className="bullet-sep">&bull;</span>
-              <a href="#terms" onClick={(e) => e.preventDefault()}>Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Clean Interactive Info Details Modal */}
-      {showInfoModal && (
-        <div className="modal-overlay" onClick={() => setShowInfoModal(null)}>
-          <div className="modal-content info-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <div>
-                <h3 style={{ fontSize: '1.25rem' }}>{modalContents[showInfoModal].title}</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                  {modalContents[showInfoModal].subtitle}
-                </p>
-              </div>
-              <button className="btn-icon" onClick={() => setShowInfoModal(null)}>
-                <X size={18} />
-              </button>
-            </div>
-            <div className="modal-body" style={{ padding: '24px', lineHeight: '1.6', fontSize: '0.95rem', color: 'var(--text-primary)' }}>
-              <p>{modalContents[showInfoModal].content}</p>
-              
-              {showInfoModal === 'about' && (
-                <div style={{ marginTop: '20px', padding: '16px', backgroundColor: 'var(--bg-primary)', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                  <h4 style={{ fontSize: '0.9rem', marginBottom: '8px', color: 'var(--primary)' }}>Support SLA Summary</h4>
-                  <ul style={{ paddingLeft: '20px', fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <li><strong>Critical Issues:</strong> Investigated within 15 minutes, 24/7.</li>
-                    <li><strong>High Priority:</strong> Response within 2 hours during office hours.</li>
-                    <li><strong>Medium & Low Priority:</strong> Checked within 24 hours.</li>
-                  </ul>
-                </div>
-              )}
-
-              {showInfoModal === 'contact' && (
-                <div style={{ marginTop: '20px', padding: '16px', backgroundColor: 'var(--bg-primary)', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                  <h4 style={{ fontSize: '0.9rem', marginBottom: '8px', color: 'var(--success)' }}>Office Working Hours</h4>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                    Monday - Friday: 8:00 AM - 6:00 PM EST<br />
-                    Saturday: 10:00 AM - 2:00 PM (Emergency Walk-ins)<br />
-                    Sunday: Closed (On-call remote support only)
-                  </p>
-                </div>
-              )}
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-primary" onClick={() => setShowInfoModal(null)}>
-                <span>Understood</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Styled JSX Styles block for full styling control and zero conflicts */}
       <style>{`
