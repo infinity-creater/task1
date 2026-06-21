@@ -29,7 +29,7 @@ export default function Header({ toggleSidebar, onViewTicket }) {
         <button className="btn-icon mobile-menu-toggle" style={{ display: 'none' }} onClick={toggleSidebar}>
           <Menu size={20} />
         </button>
-        <h2>IT Helpdesk Portal</h2>
+        <h2>HelpDesk LITE Portal</h2>
       </div>
 
       <div className="flex-align gap-12">

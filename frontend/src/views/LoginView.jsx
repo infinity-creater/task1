@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { User, Building, Mail, Lock, LogIn, UserPlus, ArrowLeft, Wrench, ShieldAlert, Users, Laptop, Shield, Headphones } from 'lucide-react';
 
-export default function LoginView() {
+export default function LoginView({ onBack }) {
   const { login, register } = useContext(AppContext);
   const [isRegistering, setIsRegistering] = useState(false);
 
@@ -88,6 +88,17 @@ export default function LoginView() {
       <div className="login-bg-glow-2"></div>
 
       <div className="login-card">
+        {onBack && (
+          <button 
+            type="button" 
+            onClick={onBack} 
+            className="back-link-btn" 
+            style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
+            <ArrowLeft size={16} />
+            <span>Back to Home</span>
+          </button>
+        )}
         <div className="login-header" style={{ marginTop: '16px' }}>
           <h2>{getRoleTitle()}</h2>
           <p style={{ color: 'var(--text-secondary)', marginTop: '6px', fontSize: '0.9rem' }}>
@@ -257,9 +268,7 @@ export default function LoginView() {
             </form>
           )}
 
-
         </div>
-      )}
 
       {/* Styled tags for role landing layouts */}
       <style>{`

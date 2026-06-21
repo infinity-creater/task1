@@ -3,6 +3,7 @@ import { AppProvider, AppContext } from './context/AppContext';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import LoginView from './views/LoginView';
+import LandingView from './views/LandingView';
 import EmployeeDashboard from './views/EmployeeDashboard';
 import ITSupportDashboard from './views/ITSupportDashboard';
 import AdminDashboard from './views/AdminDashboard';
@@ -12,6 +13,7 @@ function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedTicketId, setSelectedTicketId] = useState(null);
+  const [showLogin, setShowLogin] = useState(false);
 
   // When the user changes, reset the active tab to 'dashboard'
   useEffect(() => {
@@ -21,7 +23,10 @@ function AppContent() {
   }, [currentUser]);
 
   if (!currentUser) {
-    return <LoginView />;
+    if (showLogin) {
+      return <LoginView onBack={() => setShowLogin(false)} />;
+    }
+    return <LandingView onLoginClick={() => setShowLogin(true)} />;
   }
 
   const handleNotificationTicketClick = (ticketId) => {

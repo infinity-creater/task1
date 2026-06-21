@@ -49,13 +49,34 @@ async function seedDatabase() {
     if (userCount === 0) {
       console.log('Seeding default users...');
       const defaultUsers = [
-      { username: 'admin', password: adminHashedPassword, role: 'admin', name: 'Admin', department: 'IT Operations', email: 'eleanor.vance@company.com' },
+        { username: 'admin', password: adminHashedPassword, role: 'admin', name: 'Admin', department: 'IT Operations', email: 'eleanor.vance@company.com' },
         { username: 'support_alice', password: hashedPassword, role: 'support', name: 'Alice Cooper', department: 'IT Support Tier 1', email: 'alice.cooper@company.com' },
         { username: 'support_bob', password: hashedPassword, role: 'support', name: 'Bob Dylan', department: 'IT Support Tier 2', email: 'bob.dylan@company.com' },
         { username: 'employee_john', password: hashedPassword, role: 'employee', name: 'John Smith', department: 'Marketing', email: 'john.smith@company.com' },
         { username: 'employee_jane', password: hashedPassword, role: 'employee', name: 'Jane Doe', department: 'Human Resources', email: 'jane.doe@company.com' }
       ];
       await User.insertMany(defaultUsers);
+    } else {
+      // Ensure we have support agents even if db was pre-populated without them
+      const supportCount = await User.countDocuments({ role: 'support' });
+      if (supportCount === 0) {
+        console.log('Seeding missing default support agents...');
+        const defaultSupport = [
+          { username: 'support_alice', password: hashedPassword, role: 'support', name: 'Alice Cooper', department: 'IT Support Tier 1', email: 'alice.cooper@company.com' },
+          { username: 'support_bob', password: hashedPassword, role: 'support', name: 'Bob Dylan', department: 'IT Support Tier 2', email: 'bob.dylan@company.com' }
+        ];
+        await User.insertMany(defaultSupport);
+      }
+      // Ensure we have default employees
+      const employeeCount = await User.countDocuments({ role: 'employee' });
+      if (employeeCount === 0) {
+        console.log('Seeding missing default employees...');
+        const defaultEmployees = [
+          { username: 'employee_john', password: hashedPassword, role: 'employee', name: 'John Smith', department: 'Marketing', email: 'john.smith@company.com' },
+          { username: 'employee_jane', password: hashedPassword, role: 'employee', name: 'Jane Doe', department: 'Human Resources', email: 'jane.doe@company.com' }
+        ];
+        await User.insertMany(defaultEmployees);
+      }
     }
 
     // 2. Seed Categories
@@ -366,21 +387,60 @@ app.post('/api/tickets', authMiddleware, async (req, res) => {
   const { subject, category, priority, description, attachment } = req.body;
   const ticketId = `TCK-${Math.floor(1000 + Math.random() * 9000)}`;
   try {
+    // 1. Fetch support agents sorted alphabetically by username
+    const supportAgents = await User.find({ role: 'support' }).sort({ username: 1 });
+    
+    let assignedTo = null;
+    let assignedToName = null;
+    let status = 'Open';
+    const comments = [];
+
+    if (supportAgents.length > 0) {
+      // 2. Find the last assigned ticket to a support agent
+      const lastAssignedTicket = await Ticket.findOne({ assignedTo: { $ne: null } }).sort({ createdAt: -1 });
+      
+      let nextIndex = 0;
+      if (lastAssignedTicket && lastAssignedTicket.assignedTo) {
+        const lastIndex = supportAgents.findIndex(agent => agent.username === lastAssignedTicket.assignedTo);
+        if (lastIndex !== -1) {
+          nextIndex = (lastIndex + 1) % supportAgents.length;
+        }
+      }
+      
+      const agent = supportAgents[nextIndex];
+      assignedTo = agent.username;
+      assignedToName = agent.name;
+      status = 'Assigned';
+      
+      comments.push({
+        sender: 'system',
+        senderName: 'System',
+        senderRole: 'system',
+        text: `Ticket automatically assigned to ${agent.name} via Round-Robin scheduling.`
+      });
+    }
+
     const newTicket = new Ticket({
       id: ticketId,
       subject,
       category,
       priority,
       description,
-      status: 'Open',
+      status,
       createdBy: req.user.username,
       createdByName: req.user.name,
-      comments: [],
+      assignedTo,
+      assignedToName,
+      comments,
       attachments: attachment ? [attachment] : []
     });
 
     await newTicket.save();
     await logActivity(req.user.username, 'Created Ticket', `${ticketId}: ${subject}`);
+    
+    if (assignedTo) {
+      await logActivity('system', 'Assigned Ticket', `${ticketId} automatically assigned to ${assignedToName}`);
+    }
 
     res.status(201).json(newTicket);
   } catch (err) {
