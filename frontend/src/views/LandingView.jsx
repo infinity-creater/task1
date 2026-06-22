@@ -199,13 +199,12 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
             </div>
 
             {/* High-Fidelity CSS Mockup Dashboard Preview */}
-            <div className="hero-preview-visual">
+            <div className="hero-preview-visual" style={{ position: 'relative' }}>
               <div className="water-droplet-waves">
-                <svg className="water-ripples" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                  <circle className="ripple r1" cx="100" cy="100" r="40"></circle>
-                  <circle className="ripple r2" cx="100" cy="100" r="64"></circle>
-                  <circle className="ripple r3" cx="100" cy="100" r="88"></circle>
-                </svg>
+                <div className="wave wave-1"></div>
+                <div className="wave wave-2"></div>
+                <div className="wave wave-3"></div>
+                <div className="wave wave-4"></div>
                 <div className="dashboard-preview-card">
                 {/* Header Mockup */}
                 <div className="preview-header">
@@ -311,6 +310,32 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+
+        {/* VIDEO SHOWCASE SECTION */}
+        <section className="video-showcase-section">
+          <div className="section-container video-centered-layout">
+            <div className="section-header-centered">
+              <span className="section-subtitle">System Walkthrough</span>
+              <h2>See HelpDesk LITE in Action</h2>
+              <p>Watch a quick demonstration of our streamlined ticketing workflows and real-time agent responses.</p>
+            </div>
+            
+            <div className="video-player-container">
+              <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="promo-video"
+              >
+                <source src="/video.mp4" type="video/mp4" />
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-laptop-34281-large.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         </section>
@@ -647,7 +672,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           padding: 9px 18px;
           border-radius: var(--btn-radius);
           border: 1px solid transparent;
-          background-color: var(--primary);
+          background-color: #88BDA4;
           color: #ffffff;
           font-family: var(--font-primary);
           font-size: 0.9rem;
@@ -656,9 +681,9 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           transition: var(--transition);
         }
         .btn-login-header:hover {
-          background-color: var(--primary-hover);
+          background-color: #72a58d;
           transform: translateY(-1px);
-          box-shadow: var(--shadow-glow);
+          box-shadow: 0 4px 12px rgba(136, 189, 164, 0.25);
         }
         @media (max-width: 500px) {
           .btn-login-header {
@@ -1037,7 +1062,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           align-items: center;
           gap: 10px;
           padding: 14px 28px;
-          background-color: var(--primary);
+          background-color: #88BDA4;
           color: #ffffff;
           border: none;
           border-radius: var(--btn-radius);
@@ -1048,9 +1073,9 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           transition: var(--transition);
         }
         .btn-hero-primary:hover {
-          background-color: var(--primary-hover);
+          background-color: #72a58d;
           transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+          box-shadow: 0 10px 25px rgba(136, 189, 164, 0.35);
         }
         .btn-hero-secondary {
           display: inline-flex;
@@ -1107,18 +1132,78 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
             margin-right: auto;
           }
         }
+        /* Concentric Water Droplet Waves breathing animation styles */
+        .water-droplet-waves {
+          position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .wave {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          border-radius: 50%;
+          border: 1px solid rgba(25, 43, 26, 0.08); /* thin black lines */
+          pointer-events: none;
+          z-index: 1;
+          transform: translate(-50%, -50%);
+        }
+        .wave-1 {
+          width: 440px;
+          height: 440px;
+          animation: wave-breath 7s infinite ease-in-out;
+          animation-delay: 0s;
+        }
+        .wave-2 {
+          width: 560px;
+          height: 560px;
+          animation: wave-breath 7s infinite ease-in-out;
+          animation-delay: 0.5s;
+        }
+        .wave-3 {
+          width: 680px;
+          height: 680px;
+          animation: wave-breath 7s infinite ease-in-out;
+          animation-delay: 1s;
+        }
+        .wave-4 {
+          width: 800px;
+          height: 800px;
+          animation: wave-breath 7s infinite ease-in-out;
+          animation-delay: 1.5s;
+        }
+
+        @keyframes wave-breath {
+          0% {
+            transform: translate(-50%, -50%) scale(0.94);
+            opacity: 0.3;
+          }
+          50% {
+            transform: translate(-50%, -50%) scale(1.06);
+            opacity: 0.8;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(0.94);
+            opacity: 0.3;
+          }
+        }
+
         .dashboard-preview-card {
           width: 100%;
           height: 380px;
           background-color: var(--bg-secondary);
           border: 1px solid var(--border-color);
           border-radius: 20px;
-          box-shadow: 0 30px 60px rgba(21,29,20,0.06), 0 8px 20px rgba(16,24,32,0.04), var(--shadow-glow);
+          box-shadow: 0 45px 95px rgba(25, 43, 26, 0.22), 0 15px 40px rgba(25, 43, 26, 0.12), var(--shadow-glow);
           display: flex;
           flex-direction: column;
           overflow: hidden;
           transform: rotateY(-10deg) rotateX(5deg);
           transition: transform 0.5s ease;
+          position: relative;
+          z-index: 2; /* Keep card above breathing waves */
         }
         .dashboard-preview-card:hover {
           transform: rotateY(0deg) rotateX(0deg);
@@ -1181,7 +1266,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
         }
         .preview-nav-item.active {
           background-color: var(--primary-glow);
-          border: 1px solid rgba(99, 102, 241, 0.3);
+          border: 1px solid rgba(101, 146, 135, 0.35);
         }
         .preview-main-pane {
           flex: 1;
@@ -1748,7 +1833,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           min-width: 0;
         }
         .newsletter-btn {
-          background-color: var(--primary);
+          background-color: #88BDA4;
           color: #ffffff;
           border: none;
           border-radius: 6px;
@@ -1760,7 +1845,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           transition: var(--transition);
         }
         .newsletter-btn:hover {
-          background-color: var(--primary-hover);
+          background-color: #72a58d;
         }
 
         .footer-bottom {
@@ -1798,6 +1883,31 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
         }
         .bullet-sep {
           color: var(--border-color);
+        }
+
+        /* Video Showcase Section styles */
+        .video-showcase-section {
+          background-color: var(--bg-secondary);
+          border-top: 1px solid var(--border-color);
+          border-bottom: 1px solid var(--border-color);
+        }
+        body.light .video-showcase-section {
+          background-color: #ffffff;
+        }
+        .video-player-container {
+          max-width: 850px;
+          margin: 0 auto;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 25px 50px rgba(25, 43, 26, 0.12), 0 10px 25px rgba(25, 43, 26, 0.08);
+          border: 1px solid var(--border-color);
+          line-height: 0;
+        }
+        .promo-video {
+          width: 100%;
+          height: auto;
+          display: block;
+          border-radius: 16px;
         }
 
         /* Info details modal custom width override */
