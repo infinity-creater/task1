@@ -127,7 +127,7 @@ export default function LoginView({ onBack }) {
                   <input 
                     type="text" 
                     className="form-control" 
-                    placeholder={`e.g. jdoe`}
+                    placeholder={`Username`}
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
                     style={{ paddingLeft: '40px' }}
@@ -176,7 +176,7 @@ export default function LoginView({ onBack }) {
                   <input 
                     type="text" 
                     className="form-control" 
-                    placeholder="John Doe"
+                    placeholder="Name"
                     value={regName}
                     onChange={(e) => setRegName(e.target.value)}
                     style={{ paddingLeft: '40px' }}
@@ -218,7 +218,7 @@ export default function LoginView({ onBack }) {
                   <input 
                     type="email" 
                     className="form-control" 
-                    placeholder="john.doe@company.com"
+                    placeholder="Email"
                     value={regEmail}
                     onChange={(e) => setRegEmail(e.target.value)}
                     style={{ paddingLeft: '40px' }}
