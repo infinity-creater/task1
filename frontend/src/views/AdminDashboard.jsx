@@ -443,7 +443,6 @@ export default function AdminDashboard({ activeTab, setActiveTab }) {
                 <input 
                   type="text" 
                   className="form-control"
-                  placeholder="e.g. John Doe"
                   value={newUserName}
                   onChange={(e) => setNewUserName(e.target.value)}
                   required
@@ -456,7 +455,6 @@ export default function AdminDashboard({ activeTab, setActiveTab }) {
                   <input 
                     type="text" 
                     className="form-control"
-                    placeholder="e.g. jdoe"
                     value={newUserUsername}
                     onChange={(e) => setNewUserUsername(e.target.value)}
                     required
@@ -467,7 +465,6 @@ export default function AdminDashboard({ activeTab, setActiveTab }) {
                   <input 
                     type="text" 
                     className="form-control"
-                    placeholder="e.g. Finance"
                     value={newUserDept}
                     onChange={(e) => setNewUserDept(e.target.value)}
                     required
@@ -505,7 +502,6 @@ export default function AdminDashboard({ activeTab, setActiveTab }) {
                 <input 
                   type="email" 
                   className="form-control"
-                  placeholder="jdoe@company.com"
                   value={newUserEmail}
                   onChange={(e) => setNewUserEmail(e.target.value)}
                 />
@@ -588,7 +584,6 @@ export default function AdminDashboard({ activeTab, setActiveTab }) {
                 <input 
                   type="text" 
                   className="form-control"
-                  placeholder="e.g. Printer Issues"
                   value={newCatName}
                   onChange={(e) => setNewCatName(e.target.value)}
                   required

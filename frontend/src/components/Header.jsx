@@ -3,8 +3,6 @@ import { AppContext } from '../context/AppContext';
 import { 
   Wrench, 
   Bell, 
-  Sun, 
-  Moon, 
   LogOut, 
   Menu, 
   LogIn, 
@@ -24,12 +22,6 @@ export default function Header({
 }) {
   const { currentUser, logout, notifications, markNotificationRead, clearNotifications } = useContext(AppContext);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => !document.body.classList.contains('light'));
-
-  const toggleTheme = () => {
-    document.body.classList.toggle('light');
-    setIsDarkMode(prev => !prev);
-  };
 
   const userNotifications = notifications.filter(n => n.userId === currentUser?.username);
   const unreadCount = userNotifications.filter(n => !n.read).length;
@@ -56,10 +48,12 @@ export default function Header({
             </button>
           )}
           
-          <div className="logo-section" onClick={() => onNavClick('home')}>
-            <Wrench className="logo-icon" />
-            <span className="logo-text">HelpDesk LITE</span>
-          </div>
+          {(currentView === 'landing' || !currentUser) && (
+            <div className="logo-section" onClick={() => onNavClick('home')}>
+              <Wrench className="logo-icon" />
+              <span className="logo-text">HelpDesk LITE</span>
+            </div>
+          )}
         </div>
 
         {/* Middle Section: Desktop Navigation */}
@@ -102,10 +96,6 @@ export default function Header({
         {/* Right Section: Actions */}
         <div className="header-actions">
           
-          {/* Theme Toggler */}
-          <button className="btn-icon" onClick={toggleTheme} title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}>
-            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
 
           {/* Status & Help Button */}
           <button 

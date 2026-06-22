@@ -4,29 +4,34 @@
 :root {
   --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
-  /* Dark Theme Variables (Default) */
-  --bg-primary: #0b0f19;
-  --bg-secondary: #131a2b;
-  --bg-tertiary: #1b243d;
-  --border-color: #24304f;
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
+  /* Green Light Theme (Default & Always) */
+  --bg-primary: #E6F2DD;          /* Soft light green background */
+  --bg-secondary: #ffffff;        /* Crisp white for cards/panels */
+  --bg-tertiary: #f4f9f0;         /* Lighter tint green-white */
+  --border-color: #cbdcc3;        /* Soft sage border */
   
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-glow: rgba(99, 102, 241, 0.15);
+  --text-primary: #192b1a;        /* Dark charcoal green for high readability */
+  --text-secondary: #485c49;      /* Medium olive-gray */
+  --text-muted: #7b9077;          /* Soft green-gray */
   
-  --accent: #d946ef;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --info: #06b6d4;
+  --primary: #659287;             /* Dark teal-green for main brand text highlights */
+  --primary-hover: #537a70;
+  --primary-glow: rgba(101, 146, 135, 0.1);
   
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.2);
+  --accent: #B1D3B9;              /* Accent sage green */
+  --success: #6ea38a;
+  --warning: #d99330;
+  --danger: #cc5d5d;
+  --info: #88BDA4;                /* sage button color */
+  
+  /* Buttons Specific */
+  --btn-primary-bg: #88BDA4;
+  --btn-primary-hover: #72a58d;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(30, 41, 27, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(30, 41, 27, 0.08), 0 2px 4px -1px rgba(30, 41, 27, 0.04);
+  --shadow-lg: 0 20px 25px -5px rgba(30, 41, 27, 0.1), 0 10px 10px -5px rgba(30, 41, 27, 0.04);
+  --shadow-glow: 0 0 15px rgba(101, 146, 135, 0.15);
   
   --card-radius: 16px;
   --input-radius: 10px;
@@ -35,25 +40,60 @@
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Theme Variables */
-body.light {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #f1f5f9;
-  --border-color: #e2e8f0;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  
-  --primary: #4f46e5;
-  --primary-hover: #3730a3;
-  --primary-glow: rgba(79, 70, 229, 0.1);
-  
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -1px rgba(15, 23, 42, 0.02);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -2px rgba(15, 23, 42, 0.02);
-  --shadow-glow: 0 0 15px rgba(79, 70, 229, 0.1);
+/* NOTE: body.light overrides removed to enforce the bright sage theme by default */
+
+/* Water droplet ripple visuals placed behind preview cards */
+.water-droplet-waves {
+  position: relative;
+  display: inline-block;
 }
+.water-droplet-waves .water-ripples {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 160px);
+  height: calc(100% + 160px);
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+.water-droplet-waves .ripple {
+  fill: none;
+  stroke: rgba(101,146,135,0.11);
+  stroke-width: 3;
+  transform-origin: 50% 50%;
+  animation: ripple-scale 4200ms ease-out infinite;
+  opacity: 0.9;
+}
+.water-droplet-waves .ripple.r2 { animation-delay: 700ms; stroke-width: 2.5; opacity: 0.7; }
+.water-droplet-waves .ripple.r3 { animation-delay: 1400ms; stroke-width: 2; opacity: 0.55; }
+
+@keyframes ripple-scale {
+  0% { transform: scale(0.55); opacity: 0.9; }
+  60% { transform: scale(1.05); opacity: 0.5; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* Stronger drop shadow for the landing mockup preview */
+.dashboard-preview-card {
+  position: relative;
+  z-index: 2;
+  border-radius: var(--card-radius);
+  box-shadow: 0 30px 60px rgba(21, 29, 20, 0.16), 0 10px 30px rgba(21,29,20,0.08), var(--shadow-glow);
+  border: 1px solid rgba(101,146,135,0.06);
+}
+
+/* Footer list reset: remove bullets and spacing */
+.app-footer ul, .app-footer li, footer ul, footer li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Ensure primary buttons use the new sage fill regardless */
+.btn-primary { background-color: #88BDA4; color: #fff; }
+.btn-primary:hover { background-color: #72a58d; }
 
 * {
   box-sizing: border-box;
@@ -195,11 +235,11 @@ body.light .app-header {
 }
 
 .btn-primary {
-  background-color: var(--primary);
+  background-color: var(--btn-primary-bg);
   color: #ffffff;
 }
 .btn-primary:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--btn-primary-hover);
   box-shadow: var(--shadow-glow);
   transform: translateY(-1px);
 }
@@ -1133,7 +1173,7 @@ body.light .landing-header {
 .nav-item {
   background: transparent;
   border: none;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-family: var(--font-primary);
   font-size: 0.95rem;
   font-weight: 500;

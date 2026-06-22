@@ -200,7 +200,13 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
 
             {/* High-Fidelity CSS Mockup Dashboard Preview */}
             <div className="hero-preview-visual">
-              <div className="dashboard-preview-card">
+              <div className="water-droplet-waves">
+                <svg className="water-ripples" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <circle className="ripple r1" cx="100" cy="100" r="40"></circle>
+                  <circle className="ripple r2" cx="100" cy="100" r="64"></circle>
+                  <circle className="ripple r3" cx="100" cy="100" r="88"></circle>
+                </svg>
+                <div className="dashboard-preview-card">
                 {/* Header Mockup */}
                 <div className="preview-header">
                   <div className="preview-window-dots">
@@ -269,6 +275,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
               </div>
             </div>
           </div>
+        </div>
         </section>
 
 
@@ -1103,11 +1110,10 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
         .dashboard-preview-card {
           width: 100%;
           height: 380px;
-          background-color: rgba(19, 26, 43, 0.7);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background-color: var(--bg-secondary);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.15);
-          backdrop-filter: blur(12px);
+          box-shadow: 0 30px 60px rgba(21,29,20,0.06), 0 8px 20px rgba(16,24,32,0.04), var(--shadow-glow);
           display: flex;
           flex-direction: column;
           overflow: hidden;
@@ -1119,11 +1125,12 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
         }
         .preview-header {
           height: 48px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          border-bottom: 1px solid var(--border-color);
           padding: 0 16px;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          background: transparent;
         }
         .preview-window-dots {
           display: flex;
@@ -1140,8 +1147,9 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
         .preview-search-bar {
           width: 180px;
           height: 18px;
-          background-color: rgba(255, 255, 255, 0.05);
+          background-color: var(--bg-tertiary);
           border-radius: 9999px;
+          border: 1px solid var(--border-color);
         }
         .preview-avatar-glow {
           width: 22px;
@@ -1156,18 +1164,20 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
         }
         .preview-sidebar-mini {
           width: 50px;
-          border-right: 1px solid rgba(255, 255, 255, 0.06);
+          border-right: 1px solid var(--border-color);
           padding: 16px 0;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 18px;
+          background: transparent;
         }
         .preview-nav-item {
           width: 20px;
           height: 20px;
           border-radius: 6px;
-          background-color: rgba(255, 255, 255, 0.05);
+          background-color: var(--bg-tertiary);
+          border: 1px solid var(--border-color);
         }
         .preview-nav-item.active {
           background-color: var(--primary-glow);
@@ -1187,8 +1197,8 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           gap: 10px;
         }
         .preview-stat-item {
-          background-color: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.04);
+          background-color: var(--bg-tertiary);
+          border: 1px solid var(--border-color);
           border-radius: 8px;
           padding: 8px 10px;
           display: flex;
@@ -1215,8 +1225,8 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           overflow: hidden;
         }
         .preview-ticket-row {
-          background-color: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.04);
+          background-color: var(--bg-tertiary);
+          border: 1px solid var(--border-color);
           border-radius: 10px;
           padding: 10px 12px;
           display: flex;

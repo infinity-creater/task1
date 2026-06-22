@@ -22,6 +22,11 @@ function AppContent() {
   const [statusSidebarOpen, setStatusSidebarOpen] = useState(false);
   const [infoModalType, setInfoModalType] = useState(null);
 
+  // Force light mode
+  useEffect(() => {
+    document.body.classList.add('light');
+  }, []);
+
   // Sync view state with auth changes
   useEffect(() => {
     if (currentUser) {
