@@ -438,7 +438,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
                         type="text" 
                         required
                         className="form-control" 
-                        placeholder="e.g. John Smith"
+                        placeholder="name"
                         value={contactForm.name}
                         onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                       />
@@ -449,7 +449,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
                         type="email" 
                         required
                         className="form-control" 
-                        placeholder="john.smith@company.com"
+                        placeholder="email"
                         value={contactForm.email}
                         onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                       />
