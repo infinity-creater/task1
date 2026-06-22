@@ -906,21 +906,19 @@ textarea.form-control {
 
 .login-card {
   width: 100%;
-  max-width: 480px;
-  background-color: rgba(19, 26, 43, 0.7);
+  max-width: 920px;
+  background-color: #ffffff;
   border: 1px solid var(--border-color);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 24px;
-  padding: 40px;
-  box-shadow: var(--shadow-lg), 0 0 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 40px rgba(25, 43, 26, 0.08), var(--shadow-lg);
   z-index: 2;
   transition: var(--transition);
+  display: flex;
+  overflow: hidden;
 }
 
 body.light .login-card {
-  background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: var(--shadow-lg), 0 10px 30px rgba(15, 23, 42, 0.05);
+  background-color: #ffffff;
 }
 
 .login-header {

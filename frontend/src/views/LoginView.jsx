@@ -88,23 +88,25 @@ export default function LoginView({ onBack }) {
       <div className="login-bg-glow-2"></div>
 
       <div className="login-card">
-        {onBack && (
-          <button 
-            type="button" 
-            onClick={onBack} 
-            className="back-link-btn" 
-            style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}
-          >
-            <ArrowLeft size={16} />
-            <span>Back to Home</span>
-          </button>
-        )}
-        <div className="login-header" style={{ marginTop: '16px' }}>
-          <h2>{getRoleTitle()}</h2>
-          <p style={{ color: 'var(--text-secondary)', marginTop: '6px', fontSize: '0.9rem' }}>
-            {isRegistering ? 'Create your account' : 'Enter your credentials to connect'}
-          </p>
-        </div>
+        {/* Left Form Panel */}
+        <div className="login-form-side">
+          {onBack && (
+            <button 
+              type="button" 
+              onClick={onBack} 
+              className="back-link-btn" 
+              style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <ArrowLeft size={16} />
+              <span>Back to Home</span>
+            </button>
+          )}
+          <div className="login-header">
+            <h2>{getRoleTitle()}</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '6px', fontSize: '0.9rem' }}>
+              {isRegistering ? 'Create your account' : 'Enter your credentials to connect'}
+            </p>
+          </div>
 
           {error && (
             <div className="alert-box alert-error">
@@ -127,7 +129,7 @@ export default function LoginView({ onBack }) {
                   <input 
                     type="text" 
                     className="form-control" 
-                    placeholder={`Username`}
+                    placeholder="Username"
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
                     style={{ paddingLeft: '40px' }}
@@ -267,11 +269,92 @@ export default function LoginView({ onBack }) {
               </div>
             </form>
           )}
-
         </div>
+
+        {/* Right Image Panel */}
+        <div className="login-image-side">
+          <div className="login-image-overlay"></div>
+          <img 
+            src="/login_illustration.png" 
+            alt="IT Support Illustration" 
+            className="login-illustration-img"
+          />
+          <div className="login-image-text">
+            <h3>HelpDesk LITE</h3>
+            <p>Swift, secure, and modern ticket resolution system for enterprise departments.</p>
+          </div>
+        </div>
+      </div>
 
       {/* Styled tags for role landing layouts */}
       <style>{`
+        .login-form-side {
+          flex: 1.1;
+          padding: 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .login-form-side .login-header {
+          text-align: left;
+          margin-bottom: 24px;
+        }
+        .login-image-side {
+          flex: 0.9;
+          position: relative;
+          background: linear-gradient(135deg, rgba(136, 189, 164, 0.1) 0%, rgba(101, 146, 135, 0.25) 100%);
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          padding: 40px;
+          overflow: hidden;
+          border-left: 1px solid var(--border-color);
+        }
+        .login-illustration-img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0.95;
+          z-index: 1;
+        }
+        .login-image-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(180deg, rgba(25, 43, 26, 0) 40%, rgba(25, 43, 26, 0.75) 100%);
+          z-index: 2;
+        }
+        .login-image-text {
+          position: relative;
+          z-index: 3;
+          color: #ffffff;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .login-image-text h3 {
+          font-size: 1.6rem;
+          font-weight: 700;
+          margin-bottom: 8px;
+          color: #ffffff;
+        }
+        .login-image-text p {
+          font-size: 0.88rem;
+          line-height: 1.45;
+          color: rgba(255, 255, 255, 0.9);
+        }
+        @media (max-width: 768px) {
+          .login-image-side {
+            display: none;
+          }
+          .login-form-side {
+            flex: 1;
+            padding: 30px 20px;
+          }
+        }
         .role-selection-card {
           width: 100%;
           max-width: 950px;
