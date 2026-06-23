@@ -47,14 +47,6 @@ npm run dev -- --host
     3. Copy the public URL it generates for you.
 
 ---
-# 1. Stage all changes (CSS migration, unified components, and routing updates)
-git add .
-
-# 2. Commit the changes
-git commit -m "style: unified layout and fixed header/footer CSS rendering"
-
-# 3. Push the updates to your repository (this triggers Vercel and Render redeployment)
-git push origin main
 
 ## 🔑 Test Credentials (Username / Password)
 
