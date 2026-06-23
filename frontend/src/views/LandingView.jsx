@@ -1200,7 +1200,7 @@ export default function LandingView({ onLoginClick, onInfoClick, onNavClick, act
           display: flex;
           flex-direction: column;
           overflow: hidden;
-          transform: rotateY(-10deg) rotateX(5deg);
+          transform: rotateY(25deg) rotateX(-15deg);
           transition: transform 0.5s ease;
           position: relative;
           z-index: 2; /* Keep card above breathing waves */
